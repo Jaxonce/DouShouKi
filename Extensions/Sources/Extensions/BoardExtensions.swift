@@ -8,8 +8,29 @@
 import Foundation
 import Model
 
-//extension Board{
-//    var description: String{
-//        var row = grid.count
-//    }
-//}
+extension Board: CustomStringConvertible{
+    public var description: String{
+        var result = ""
+        for row in grid {
+            for cell in row {
+                result.append(cell.cellType.description)
+                if let animal = cell.piece?.description{
+                    result.append(animal.description)
+                }
+                else {
+                    result.append(" ")
+                }
+                if let owner = cell.piece?.owner{
+                    result.append(owner.description)
+                }
+                else {
+                    result.append(" ")
+                }
+                result.append("\t")
+                
+            }
+            result.append("\n")
+        }
+        return result
+    }
+}
