@@ -5,7 +5,7 @@ import Foundation
 import Model
 
 public extension CellType{
-    public var description: String {
+     var symbol: String {
         switch self {
         case .den:
             return "🪹"

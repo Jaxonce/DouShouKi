@@ -9,7 +9,7 @@ import Foundation
 import Model
 
 public extension Animal{
-    var description: String{
+    var symbol: String{
         switch self {
         case .rat:
             return "🐭"

@@ -8,28 +8,28 @@
 import Foundation
 import Model
 
-extension Board: CustomStringConvertible{
-    public var description: String{
+extension Board{
+    public var display: String{
         var result = ""
         for row in grid {
             for cell in row {
-                result.append(cell.cellType.description)
-                if let animal = cell.piece?.description{
-                    result.append(animal.description)
+                result.append(cell.cellType.symbol)
+                if let animal = cell.piece?.animal{
+                    result.append(animal.symbol)
                 }
                 else {
                     result.append(" ")
                 }
                 if let owner = cell.piece?.owner{
-                    result.append(owner.description)
+                    result.append(owner.symbol)
                 }
                 else {
                     result.append(" ")
                 }
-                result.append("\t")
+                result.append("\t\t")
                 
             }
-            result.append("\n")
+            result.append("\n\n")
         }
         return result
     }

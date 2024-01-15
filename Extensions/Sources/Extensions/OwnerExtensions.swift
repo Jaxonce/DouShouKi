@@ -9,7 +9,7 @@ import Foundation
 import Model
 
 extension Owner{
-    var description: String{
+    var symbol: String{
         switch self {
         case .noOne:
             return " "

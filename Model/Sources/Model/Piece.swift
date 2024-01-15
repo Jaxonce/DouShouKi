@@ -11,7 +11,7 @@ public struct Piece : CustomStringConvertible{
     public let owner: Owner
     public let animal: Animal
     
-    init(withOwner owner: Owner, andAnimal animal: Animal) {
+    public init(withOwner owner: Owner, andAnimal animal: Animal) {
         self.owner = owner
         self.animal = animal
     }

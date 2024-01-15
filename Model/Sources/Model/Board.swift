@@ -15,11 +15,11 @@ public struct Board {
     /// Ctor Board
     /// - Parameter grid: grid represent different Cells
     public init?(withGrid grid: [[Cell]]) {
-        guard grid.isEmpty else{
+        guard !grid.isEmpty else{
             return nil
         }
         let nbCellule = grid.first?.count
-        if !grid.allSatisfy({nbCellule == $0.count}) {
+        guard grid.allSatisfy({nbCellule == $0.count}) else{
             return nil
         }
         self.grid = grid
@@ -27,7 +27,4 @@ public struct Board {
         self.nbColumn = nbCellule!
         
     }
-    
-    
-    
 }
