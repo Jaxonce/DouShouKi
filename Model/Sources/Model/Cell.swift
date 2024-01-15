@@ -23,8 +23,8 @@ public struct Cell: CustomStringConvertible {
         return "\(pieceValue) on \(cellType), \(initialOwner.description)"
     }
     
-    public func test(){
-        var board: Board
-        board.grid[0][0].piece = []
-    }
+//    public func test(){
+//        var board: Board
+//        board.grid[0][0].piece = []
+//    }
 }
