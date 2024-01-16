@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Board {
+public struct Board : Equatable{
     public let nbRow: Int
     public let nbColumn: Int
     public private(set) var grid: [[Cell]]
@@ -28,7 +28,10 @@ public struct Board {
         
     }
     
-    public func pieceCount(forOwner owner: Owner) -> Int{
+    /// Count pieces for a player
+    /// - Parameter owner: player we want to know their piece number
+    /// - Returns: owner's number of piece
+    public func countPieces(of owner: Owner) -> Int{
         var nbPiece = 0
         for row in grid {
             for cell in row {
@@ -40,7 +43,45 @@ public struct Board {
         return nbPiece;
     }
     
-    public func pieceCount() -> (Int,Int) {
-        return (pieceCount(forOwner: .player1),pieceCount(forOwner: .player2))
+    /// Count pieces for all players
+    /// - Returns: a tuple with the number of piece for each player
+    public func countPieces() -> (Int,Int) {
+        return (countPieces(of: .player1),countPieces(of: .player2))
+    }
+    
+    /// Demander au prof si on doit aussi mettre owner dans Cell en var pour le modif et le mettre a noOne quand on appelle removePiece, sachant que l'attribut s'appelle initialOwner
+    /// - Parameters:
+    ///   - piece: piece to add
+    ///   - row: the row where we want to add
+    ///   - column: the column where we want to add
+    /// - Returns: ok if all is good, failed with detail if there is an error
+    public mutating func insert(_ piece: Piece, atRow row: Int, andColumn column: Int) -> BoardResult{
+        guard !((row >= 0 && row >= nbRow) || (column >= 0 && column >= nbColumn)) else{
+            return .failed(reason: .outOfBounds)
+        }
+        guard self.grid[row][column].piece == nil else{
+            return .failed(reason: .cellNotEmpty)
+        }
+        self.grid[row][column].piece = piece
+        return .ok
+    }
+    
+    /// Remove a piece
+    /// - Parameters:
+    ///   - row: the row where we want to remove the piece
+    ///   - column: the column where we want to remove the piece
+    /// - Returns: ok if all is good, failed with detail if there is an error
+    public mutating func removePiece(atRow row: Int, andColumn column: Int) -> BoardResult {
+        ///Pas sur de ca, a verif car ca me parait mal coder
+        ///Que faire si il y a plusieurs erreur en même temps
+        ///Test out of ne marche pas avec value negative je sais pas pk
+        guard !((row >= 0 && row >= nbRow) || (column >= 0 && column >= nbColumn)) else{
+            return .failed(reason: .outOfBounds)
+        }
+        guard self.grid[row][column].piece != nil else{
+            return .failed(reason: .cellEmpty)
+        }
+        self.grid[row][column].piece = nil
+        return .ok
     }
 }

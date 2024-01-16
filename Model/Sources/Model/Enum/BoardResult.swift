@@ -7,6 +7,6 @@
 
 import Foundation
 
-public enum BoardResult {
-    case ok, failed
+public enum BoardResult: Equatable {
+    case ok, failed(reason : BoardFailingReason), unknown
 }
