@@ -69,6 +69,10 @@ var grid : [[Cell]] = [line1, line2, line3, line4, line4, line4, line4, line5, l
 
 if let board = Board(withGrid: grid){
     print(board.display)
+    let nbPieceP1 = board.pieceCount(forOwner: .player1)
+    print(nbPieceP1)
+    let nbPieceAll = board.pieceCount()
+    print("Player1 : \(nbPieceAll.0) piece\nPlayer2 : \(nbPieceAll.1) piece")
 }
 else {
     print("Hello")

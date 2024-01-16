@@ -27,4 +27,20 @@ public struct Board {
         self.nbColumn = nbCellule!
         
     }
+    
+    public func pieceCount(forOwner owner: Owner) -> Int{
+        var nbPiece = 0
+        for row in grid {
+            for cell in row {
+                if cell.piece?.owner == owner{
+                    nbPiece += 1
+                }
+            }
+        }
+        return nbPiece;
+    }
+    
+    public func pieceCount() -> (Int,Int) {
+        return (pieceCount(forOwner: .player1),pieceCount(forOwner: .player2))
+    }
 }
