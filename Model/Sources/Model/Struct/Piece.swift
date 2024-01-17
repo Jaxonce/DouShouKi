@@ -20,3 +20,4 @@ public struct Piece : CustomStringConvertible, Equatable{
         return "[\(owner.description):\(animal.rawValue)]"
     }
 }
+

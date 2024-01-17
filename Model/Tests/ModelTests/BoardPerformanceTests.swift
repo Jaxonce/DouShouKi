@@ -60,17 +60,17 @@ final class BoardPerformanceTests: XCTestCase {
         let cellElephantP2 = Cell(ofType: .jungle, ownedBy: .player2, withPiece: elephantP2)
 
         // Creation des differentes lignes
-        var line1: [Cell] = [cellLionP1, cellJungle, cellTrap, cellDen, cellTrap, cellJungle, cellTigerP1]
-        var line2: [Cell] = [cellJungle, cellDogP1, cellJungle, cellTrap, cellJungle, cellCatP1, cellJungle]
-        var line3: [Cell] = [cellRatP1, cellJungle, cellLeopardP1, cellJungle, cellWolfP1, cellJungle, cellElephantP1]
-        var line4: [Cell] = [cellJungle, cellWater, cellWater, cellJungle, cellWater, cellWater, cellJungle]
-        var line5: [Cell] = [cellElephantP2, cellJungle, cellWolfP2, cellJungle,cellLeopardP2 , cellJungle, cellRatP2]
-        var line6: [Cell] = [cellJungle, cellCatP2, cellJungle, cellTrap, cellJungle, cellDogP2 , cellJungle]
-        var line7: [Cell] = [cellTigerP2, cellJungle, cellTrap, cellDen, cellTrap, cellJungle, cellLionP2]
+        let line1: [Cell] = [cellLionP1, cellJungle, cellTrap, cellDen, cellTrap, cellJungle, cellTigerP1]
+        let line2: [Cell] = [cellJungle, cellDogP1, cellJungle, cellTrap, cellJungle, cellCatP1, cellJungle]
+        let line3: [Cell] = [cellRatP1, cellJungle, cellLeopardP1, cellJungle, cellWolfP1, cellJungle, cellElephantP1]
+        let line4: [Cell] = [cellJungle, cellWater, cellWater, cellJungle, cellWater, cellWater, cellJungle]
+        let line5: [Cell] = [cellElephantP2, cellJungle, cellWolfP2, cellJungle,cellLeopardP2 , cellJungle, cellRatP2]
+        let line6: [Cell] = [cellJungle, cellCatP2, cellJungle, cellTrap, cellJungle, cellDogP2 , cellJungle]
+        let line7: [Cell] = [cellTigerP2, cellJungle, cellTrap, cellDen, cellTrap, cellJungle, cellLionP2]
 
 
         // Creation de la grille avec les différentes lignes
-        var grid : [[Cell]] = [line1, line2, line3, line4, line4, line4, line4, line5, line6, line7]
+        let grid : [[Cell]] = [line1, line2, line3, line4, line4, line4, line4, line5, line6, line7]
         
         board = Board(withGrid: grid)!
 
@@ -79,7 +79,7 @@ final class BoardPerformanceTests: XCTestCase {
     func testPerformance() throws {
         // This is an example of a performance test case.
         self.measure {
-            var result = board?.removePiece(atRow: 0, andColumn: 0)
+            _ = board?.removePiece(atRow: 0, andColumn: 0)
         }
     }
 

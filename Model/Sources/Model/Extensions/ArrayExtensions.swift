@@ -6,10 +6,9 @@
 //
 
 import Foundation
-import Model
 
-extension Array where Element == [Cell] {
-    func count(owner: Owner) -> Int{
+extension Array where Element == Array<Cell> {
+    func count(_ owner: Owner) -> Int{
         var nbPiece: Int = 0
         for row in self{
             for cell in row {

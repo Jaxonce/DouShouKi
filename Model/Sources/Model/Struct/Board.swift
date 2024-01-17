@@ -32,21 +32,13 @@ public struct Board : Equatable{
     /// - Parameter owner: player we want to know their piece number
     /// - Returns: owner's number of piece
     public func countPieces(of owner: Owner) -> Int{
-        var nbPiece = 0
-        for row in grid {
-            for cell in row {
-                if cell.piece?.owner == owner{
-                    nbPiece += 1
-                }
-            }
-        }
-        return nbPiece;
+        return grid.count(owner)
     }
     
     /// Count pieces for all players
     /// - Returns: a tuple with the number of piece for each player
-    public func countPieces() -> (Int,Int) {
-        return (countPieces(of: .player1),countPieces(of: .player2))
+    public func countPieces() -> (player1: Int, player2: Int) {
+        return (grid.count(.player1),grid.count(.player2))
     }
     
     /// Demander au prof si on doit aussi mettre owner dans Cell en var pour le modif et le mettre a noOne quand on appelle removePiece, sachant que l'attribut s'appelle initialOwner
