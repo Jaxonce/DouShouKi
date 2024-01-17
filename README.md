@@ -30,7 +30,7 @@ Suivre les étapes suivante pour voir la couverture de test
 
 1)
 
-<img src="./Image/CodeCoverage1.png" height="auto" width="auto"/>
+<img src="./Image/Coverage%20report.png" height="auto" width="auto"/>
 
 2)
 
