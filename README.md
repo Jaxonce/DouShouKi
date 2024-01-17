@@ -1,8 +1,14 @@
 # Project DouShuKi 3ème année
 
+## Cloner le dépot
+
+- Premièrement ouvrer xCode
+- Cliquer sur `Clone Git Repository...`
+<img src="./Image/CloneProject.png" height="auto" width="auto"/>
+
 ## Comment lancer le projet :
 
-- Cloner le dépot dans xCode
+Après avoir cloner le dépot dans xCode
 - Selectionner l'application console comme ci dessous
 
 <img src="./Image/SelectProject.png" height="auto" width="auto"/>
@@ -15,7 +21,7 @@
 
 - Selectionner le projet de test comme ci dessous
 
-<img src="./Image/RunTest.png" height="auto" width="auto"/>
+<img src="./Image/RunTest.png" height="200" width="auto"/>
 
 
 ## Voir le resultat de l'execution des tests
