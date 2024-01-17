@@ -50,3 +50,12 @@ niveau | description | coeff | valide/invalide
 - Cliquer sur le bouton play (cf. image)
 
 ![buttonPlay](./Image/PlayButton.png)
+
+## Pour lancer les tests :
+- Selectionner le projet de test comme ci dessous
+
+![projectSelect](./Image/SelectProject.png)
+
+- Cliquer sur le bouton play (cf. image)
+
+![buttonPlay](./Image/PlayButton.png)
