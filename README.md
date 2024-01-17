@@ -22,7 +22,7 @@
 
 - Cliquer dans le menu de gauche sur cet onglet
 
-<img src="./Image/ResultTest.png" height="auto" width="auto"/>
+<img src="./Image/ResultTest.png" height="400" width="auto"/>
 
 ## Couverture de tests
 
