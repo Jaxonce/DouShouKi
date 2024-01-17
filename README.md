@@ -19,14 +19,14 @@ Après avoir cloner le dépot dans xCode
 
 ## Pour lancer les tests :
 
-- Selectionner le projet de test comme ci dessous
+- Selectionner le projet de test cliquer sur le bouton suivant 
 
 <img src="./Image/RunTest.png" height="200" width="auto"/>
 
 
 ## Voir le resultat de l'execution des tests
 
-- Cliquer dans le menu de gauche sur cet onglet
+- Cliquer dans le menu de gauche sur cet onglet <span><img src="./Image/ResultTestIcon.png" width="30" height="auto"/></span>
 
 <img src="./Image/ResultTest.png" height="400" width="auto"/>
 
@@ -34,10 +34,12 @@ Après avoir cloner le dépot dans xCode
 
 Suivre les étapes suivante pour voir la couverture de test
 
-1)
+1) Cliquer sur le menu de gauche sur cet onglet <span><img src="./Image/CoverageReportIcon.png" width="30" height="auto"/></span>
+
+2)
 
 <img src="./Image/Coverage%20report.png" height="400" width="auto"/>
 
-2)
+3)
 
 <img src="./Image/CoverageReport2.png" height="300" width="auto"/>
