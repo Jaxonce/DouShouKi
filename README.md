@@ -22,7 +22,7 @@
 
 - Cliquer dans le menu de gauche sur cet onglet
 
-![testResult](./Image/ResultTest.png)
+<img src="./Image/ResultTest.png" height="auto" width="auto"/>
 
 ## Couverture de tests
 
@@ -30,8 +30,8 @@ Suivre les étapes suivante pour voir la couverture de test
 
 1)
 
-![codeCoverage1](./Image/CodeCoverage1.png)
+<img src="./Image/CodeCoverage1.png" height="auto" width="auto"/>
 
 2)
 
-![codeCoverage2](./Image/CodeCoverage2.png)
+<img src="./Image/CodeCoverage2.png" height="auto" width="auto"/>
