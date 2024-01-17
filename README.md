@@ -5,17 +5,18 @@
 - Cloner le dépot dans xCode
 - Selectionner l'application console comme ci dessous
 
-![projectSelect](./Image/SelectProject.png)
+<img src="./Image/SelectProject.png" height="auto" width="auto"/>
 
 - Cliquer sur le bouton play (cf. image)
 
-![buttonPlay](./Image/PlayButton.png)
+<img src="./Image/PlayButton.png" height="auto" width="auto"/>
 
 ## Pour lancer les tests :
 
 - Selectionner le projet de test comme ci dessous
 
-![testRun](./Image/RunTest.png)
+<img src="./Image/RunTest.png" height="auto" width="auto"/>
+
 
 ## Voir le resultat de l'execution des tests
 
