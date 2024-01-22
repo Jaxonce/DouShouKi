@@ -7,11 +7,16 @@
 
 import Foundation
 
-public struct Cell: CustomStringConvertible {
+public struct Cell: CustomStringConvertible, Equatable {
     public let cellType: CellType
-    public let piece: Piece?
+    public var piece: Piece?
     public let initialOwner: Owner
     
+    /// Cell's Ctor
+    /// - Parameters:
+    ///   - cellType: type of Cell
+    ///   - initialOwner: the owner of the cell
+    ///   - piece: the piece of the Cell
     public init(ofType cellType: CellType = .unknown, ownedBy initialOwner: Owner = .noOne, withPiece piece: Piece? = nil) {
         self.cellType = cellType
         self.initialOwner = initialOwner
@@ -22,9 +27,4 @@ public struct Cell: CustomStringConvertible {
         let pieceValue = piece?.description ?? "ø"
         return "\(pieceValue) on \(cellType), \(initialOwner.description)"
     }
-    
-//    public func test(){
-//        var board: Board
-//        board.grid[0][0].piece = []
-//    }
 }

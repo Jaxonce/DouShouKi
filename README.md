@@ -1,52 +1,45 @@
 # Project DouShuKi 3ème année
 
-## Semaine 1
+## Cloner le dépot
 
-## Ce qui a été fait :
+- Premièrement ouvrer xCode
+- Cliquer sur `Clone Git Repository...`
+<img src="./Image/CloneProject.png" height="auto" width="auto"/>
 
-niveau | description | coeff | valide/invalide 
---- | --- | --- | ---
-☢️ | Le dépôt doit être accessible par l'enseignant | ☢️ | ✅
-☢️ | un .gitignore doit exister au premier push | ☢️ | ✅
-🎬 | les *Packages* et le test compilent | 4 | ✅
-🎬 | le test s'exécute sans bug | 4 | ✅
-3️⃣ | tous mes projets sont dans le même _workspace_ | 2 | ✅
-1️⃣ | j'ai créé un *Package* *Model* | 2 | ✅
-1️⃣ | j'ai créé l'enum ```CellType``` | 1 | ✅
-1️⃣ | j'ai créé l'enum ```Owner``` | 1 | ✅
-1️⃣ | j'ai créé l'enum ```Animal``` | 1 | ✅
-3️⃣ | ```Owner``` s'affiche comme demandé sous la forme d'un ```String``` | 1 | ✅
-1️⃣ | ```Piece``` possède bien les propriétés demandées en lecture seule non-modifiables | 1 | ✅
-1️⃣ | ```Piece``` possède un initialiseur | 2 | ✅
-3️⃣ | ```Piece``` est transformable en ```String``` comme demandé | 1 | ✅
-1️⃣ | ```Cell``` possède bien les propriétés demandées en lecture seule non-modifiables | 1 | ✅
-1️⃣ | ```Cell``` possède bien une propriété ```piece``` pouvant ne pas avoir de valeur | 2 | ✅
-1️⃣ | ```Cell``` possède un initialiseur utilisant des valeurs par défaut pour deux paramètres | 2 | ✅
-3️⃣ | ```Cell``` est transformable en ```String``` comme demandé | 1 | ✅
-1️⃣ | ```Board``` possède bien les propriétés demandées en lecture seule non-modifiables | 1 | ✅
-1️⃣ | ```Board``` possède bien un tableau à deux dimensions de cellule | 2 | ✅
-2️⃣ | ```Board.grid``` est en lecture seule mais modifiable au sein de ```Board``` | 2 | ✅
-1️⃣ | ```Board``` possède un initialiseur permettant d'initialiser toutes ses propriétés | 2 | ✅
-2️⃣ | l'initialiseur de ```Board``` vérifie les contraintes et renvoie ```nil``` si nécessaire | 3 | ✅
-3️⃣ | j'ai créé un *Package* avec les extensions pour l'affichage en lignes de commande | 2 | ✅
-3️⃣ | j'ai créé une extensions pour ```CellType``` | 1 | ✅
-3️⃣ | j'ai créé une extensions pour ```Animal``` | 1 | ✅
-3️⃣ | j'ai créé une extensions pour ```Owner``` | 1 | ✅
-3️⃣ | j'ai créé une extensions pour ```Board``` | 2 | ✅
-2️⃣ | j'ai créé une application de type *Command Line Tool* utilisant les deux *Packages* précédents | 2 | ✅
-2️⃣ | j'initialise correctement ```Board``` dans le test | 2 | ✅
-3️⃣ | j'affiche correctement ```Board``` dans le test | 1 | ✅
-3️⃣ | mon dépôt possède un readme qui apporte quelque chose... | 2 | ✅
-3️⃣ | mon code est commenté | 1   | 🚧
+## Comment lancer le projet :
 
-
-## Pour lancer le projet :
-
-- Cloner le dépot dans xCode
+Après avoir cloner le dépot dans xCode
 - Selectionner l'application console comme ci dessous
 
-![projectSelect](./Image/SelectProject.png)
+<img src="./Image/SelectProject.png" height="auto" width="auto"/>
 
 - Cliquer sur le bouton play (cf. image)
 
-![buttonPlay](./Image/PlayButton.png)
+<img src="./Image/PlayButton.png" height="auto" width="auto"/>
+
+## Pour lancer les tests :
+
+- Selectionner le projet de test cliquer sur le bouton suivant 
+
+<img src="./Image/RunTest.png" height="200" width="auto"/>
+
+
+## Voir le resultat de l'execution des tests
+
+- Cliquer dans le menu de gauche sur cet onglet <span><img src="./Image/ResultTestIcon.png" width="30" height="auto"/></span>
+
+<img src="./Image/ResultTest.png" height="400" width="auto"/>
+
+## Couverture de tests
+
+Suivre les étapes suivante pour voir la couverture de test
+
+1) Cliquer sur le menu de gauche sur cet onglet <span><img src="./Image/CoverageReportIcon.png" width="30" height="auto"/></span>
+
+2)
+
+<img src="./Image/Coverage%20report.png" height="400" width="auto"/>
+
+3)
+
+<img src="./Image/CoverageReport2.png" height="300" width="auto"/>

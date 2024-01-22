@@ -67,9 +67,30 @@ var line7: [Cell] = [cellTigerP2, cellJungle, cellTrap, cellDen, cellTrap, cellJ
 // Creation de la grille avec les différentes lignes
 var grid : [[Cell]] = [line1, line2, line3, line4, line4, line4, line4, line5, line6, line7]
 
-if let board = Board(withGrid: grid){
+if var board = Board(withGrid: grid){
+    ///Affichage de la planche de jeu
     print(board.display)
-}
-else {
-    print("Hello")
+    
+    ///Test comptage des pieces du player1
+    let nbPieceP1 = board.countPieces(of: .player1)
+    print(nbPieceP1)
+    
+    ///Test comptage des pieces du player2
+    let nbPieceAll = board.countPieces()
+    print("Player1 : \(nbPieceAll.0) piece\nPlayer2 : \(nbPieceAll.1) piece")
+    
+    ///Test supression pièce avec row=2 et column= 2 and result = ok
+    var resultRemove = board.removePiece(atRow: 2, andColumn: 2)
+    print(resultRemove)
+    print(board.display)
+    
+    ///Test ajout pièce avec row= 2 et column=2 and result = ok
+    var pieceToAdd = Piece(withOwner: .player1, andAnimal: .leopard)
+    var resultAdd = board.insert(pieceToAdd, atRow: 2, andColumn: 2)
+    print(resultAdd)
+    print(board.display)
+    
+    ///Test ajout pièce avec row= 2 et column=2 and result = cellNotEmpty
+    resultAdd = board.insert(pieceToAdd, atRow: 2, andColumn: 2)
+    print(resultAdd)
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Piece : CustomStringConvertible{
+public struct Piece : CustomStringConvertible, Equatable{
     public let owner: Owner
     public let animal: Animal
     
@@ -20,3 +20,4 @@ public struct Piece : CustomStringConvertible{
         return "[\(owner.description):\(animal.rawValue)]"
     }
 }
+
