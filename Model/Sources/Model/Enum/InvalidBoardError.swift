@@ -7,6 +7,6 @@
 
 import Foundation
 
-public enum InvalidBoardError{
+public enum InvalidBoardError: Error, Equatable{
     case badDimensions(Int,Int),badCellType(CellType, Int, Int),multipleOccurencesOfSamePiece(Piece), pieceWithNoOwner(Piece), pieceNotAllowedOnThisCell(Piece, Cell)
 }

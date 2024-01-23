@@ -7,7 +7,8 @@
 
 import Foundation
 
-public struct Board : Equatable{
+///J'ai du rajouter hashable, car il le faut pour que ce soit une clé dans le dictionnaire de rule
+public struct Board : Equatable, Hashable{
     public let nbRow: Int
     public let nbColumn: Int
     public private(set) var grid: [[Cell]]

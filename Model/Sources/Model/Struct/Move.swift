@@ -14,11 +14,13 @@ public struct Move {
     public var rowDestination: Int
     public var columnDestination: Int
     
-    init(owner: Owner, rowOrigin: Int, colomnOrigin: Int, rowDestination: Int, columnDestination: Int) {
+    public init(owner: Owner, rowOrigin: Int, colomnOrigin: Int, rowDestination: Int, columnDestination: Int) {
         self.owner = owner
         self.rowOrigin = rowOrigin
         self.colomnOrigin = colomnOrigin
         self.rowDestination = rowDestination
         self.columnDestination = columnDestination
     }
+    
+    ///Faire description move
 }
