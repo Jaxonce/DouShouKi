@@ -22,5 +22,9 @@ public struct Move {
         self.columnDestination = columnDestination
     }
     
+    public var description : String {
+        return "\(owner) with origin (\(rowOrigin),\(colomnOrigin)) and destination (\(rowDestination),\(columnDestination))"
+    }
+    
     ///Faire description move
 }

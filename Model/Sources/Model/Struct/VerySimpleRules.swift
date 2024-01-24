@@ -11,6 +11,9 @@ public struct VerySimpleRules: Rules {
     public var occurences: [Board : Int]
     public var historic: [Move]
     
+    static let NB_ROW = 5
+    static let NB_COLUMN = 5
+    
     public init() {
         self.occurences = [Board : Int]()
         self.historic = [Move]()
@@ -55,23 +58,7 @@ public struct VerySimpleRules: Rules {
     ///   - destinationColumn: colonne ou veut se déplacer la piece
     /// - Returns: true si le move est valide, false si le coup n'est pas valide
     public func isMoveValid(board: Board, initialRow: Int, initialColumn: Int, destinationRow: Int, destinationColumn: Int) -> Bool {
-        let destinationCell = board.grid[destinationRow][destinationColumn]
-        let initialCell = board.grid[initialRow][initialColumn]
-        if board.grid[initialRow][initialColumn] == board.grid[destinationRow][destinationColumn] {
-            return false
-        }
-        if destinationCell.piece?.owner == initialCell.piece?.owner {
-            return false
-        }
-        if abs(initialRow - destinationRow) != 1 || abs(initialRow - destinationRow) != 1 {
-            return false
-        }
-        if destinationCell.piece == nil {
-            return true
-        }
-        ///A verif il y a peut etre d'autre verif a faire
-        ///!(column-1 < 0)
-        return true
+        isMoveValid(board: board, canMove: Move(owner: historic.last!.owner, rowOrigin: <#T##Int#>, colomnOrigin: <#T##Int#>, rowDestination: <#T##Int#>, columnDestination: <#T##Int#>))
     }
     
     /// Meme fonction que celle du dessus, mais au lieu de passer directement les coordonnées, on passe un move
@@ -80,7 +67,23 @@ public struct VerySimpleRules: Rules {
     ///   - move: représente le coup que le joueur veut faire
     /// - Returns: true si le move est valide, false si il ne l'est pas
     public func isMoveValid(board: Board, canMove move: Move) -> Bool {
-        return isMoveValid(board: board, initialRow: move.rowOrigin, initialColumn: move.colomnOrigin, destinationRow: move.rowDestination, destinationColumn: move.columnDestination)
+        let destinationCell = board.grid[move.rowDestination][move.columnDestination]
+        let initialCell = board.grid[move.rowOrigin][move.colomnOrigin]
+        if board.grid[move.rowOrigin][move.colomnOrigin] == board.grid[move.rowDestination][move.columnDestination] {
+            return false
+        }
+        if destinationCell.piece?.owner == initialCell.piece?.owner {
+            return false
+        }
+        if abs(move.rowOrigin - move.rowDestination) != 1 || abs(move.colomnOrigin - move.columnDestination) != 1 {
+            return false
+        }
+        if destinationCell.piece != nil {
+            return false
+        }
+        ///A verif il y a peut etre d'autre verif a faire
+        ///!(column-1 < 0)
+        return true
     }
     
     /// Permet de verifier si un des joueurs a perdu
@@ -123,7 +126,7 @@ public struct VerySimpleRules: Rules {
 
     public static func createBoard() -> Board {
         
-        var grid : [[Cell]] = 
+        let grid : [[Cell]] =
         [
             [
                 Cell(ofType: .jungle),
@@ -161,13 +164,12 @@ public struct VerySimpleRules: Rules {
                 Cell(ofType: .jungle)
             ]
         ]
-        var board : Board = Board(withGrid: grid)!
-        return board
+        return Board(withGrid: grid)!
     }
     
     public static func checkBoard(b: Board) throws{
         
-        guard b.nbRow == 5 && b.nbColumn == 5 else {
+        guard b.nbRow == VerySimpleRules.NB_ROW && b.nbColumn == VerySimpleRules.NB_COLUMN else {
             throw InvalidBoardError.badDimensions(5, 5)
         }
         guard b.grid.first?[2].cellType == .den else {
@@ -197,12 +199,25 @@ public struct VerySimpleRules: Rules {
     
     ///Finish
     public func getNextPlayer() -> Owner {
+        if historic.isEmpty {
+            return .player1
+        }
         guard let lastMove = historic.last, lastMove.owner == .player1 else{
             return .player1
         }
         return .player2
-        }
     }
+    
+    public func getPlayer() -> Owner {
+        if historic.isEmpty {
+            return .player1
+        }
+        if let owner = historic.last?.owner, owner == .player1 {
+            return .player1
+        }
+        return .player2
+    }
+}
     
     
 
