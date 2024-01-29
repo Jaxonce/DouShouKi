@@ -7,6 +7,10 @@
 
 import Foundation
 
-public enum Animal: String{
-    case rat, cat, dog, wolf, leopard, tiger, lion, elephant
+public enum Animal: String, Comparable, CaseIterable{
+    public static func < (lhs: Animal, rhs: Animal) -> Bool {
+        return lhs.rawValue < rhs.rawValue
+    }
+    
+    case rat = "1", cat = "2", dog = "3", wolf = "4" , leopard = "5", tiger = "6", lion = "7", elephant = "8"
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum Owner: CustomStringConvertible{
+public enum Owner: CustomStringConvertible, Hashable{
     case noOne, player1, player2
     
     public var description :String{
