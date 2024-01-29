@@ -7,6 +7,6 @@
 
 import Foundation
 
-public enum Result {
+public enum Result :Equatable{
     case notFinished, even, winner(_ : Owner, _ : WinningReason)
 }

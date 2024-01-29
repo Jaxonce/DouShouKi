@@ -19,9 +19,17 @@ public struct VerySimpleRules: Rules {
         self.historic = [Move]()
     }
     
+    /// Get all moves for all pieces of an owner
+    /// - Parameters:
+    ///   - board: actual board
+    ///   - owner: owner we want his possible moves
+    /// - Returns: an array of moves
     public func getMoves(board: Board, owner: Owner) -> [Move] {
-        let moves = [Move]()
-        return moves
+        var tabMove : [Move] = []
+        for cell in getPieces(board: board, owner: owner) {
+            tabMove.append(contentsOf: getMoves(board: board, owner: owner, withRaw: cell.row, andColumn: cell.column))
+        }
+        return tabMove
     }
     
     
@@ -58,7 +66,7 @@ public struct VerySimpleRules: Rules {
     ///   - destinationColumn: colonne ou veut se déplacer la piece
     /// - Returns: true si le move est valide, false si le coup n'est pas valide
     public func isMoveValid(board: Board, initialRow: Int, initialColumn: Int, destinationRow: Int, destinationColumn: Int) -> Bool {
-        isMoveValid(board: board, canMove: Move(owner: historic.last!.owner, rowOrigin: <#T##Int#>, colomnOrigin: <#T##Int#>, rowDestination: <#T##Int#>, columnDestination: <#T##Int#>))
+        isMoveValid(board: board, canMove: Move(owner: getNextPlayer(), rowOrigin: initialRow, colomnOrigin: initialColumn, rowDestination: destinationRow, columnDestination: destinationColumn))
     }
     
     /// Meme fonction que celle du dessus, mais au lieu de passer directement les coordonnées, on passe un move
@@ -67,6 +75,12 @@ public struct VerySimpleRules: Rules {
     ///   - move: représente le coup que le joueur veut faire
     /// - Returns: true si le move est valide, false si il ne l'est pas
     public func isMoveValid(board: Board, canMove move: Move) -> Bool {
+        if move.rowOrigin < 0 || move.colomnOrigin < 0 || move.rowDestination < 0 || move.columnDestination < 0 {
+            return false
+        }
+        if move.rowOrigin > 4 || move.colomnOrigin > 4 || move.rowDestination > 4 || move.columnDestination > 4 {
+            return false
+        }
         let destinationCell = board.grid[move.rowDestination][move.columnDestination]
         let initialCell = board.grid[move.rowOrigin][move.colomnOrigin]
         if board.grid[move.rowOrigin][move.colomnOrigin] == board.grid[move.rowDestination][move.columnDestination] {
@@ -75,15 +89,18 @@ public struct VerySimpleRules: Rules {
         if destinationCell.piece?.owner == initialCell.piece?.owner {
             return false
         }
-        if abs(move.rowOrigin - move.rowDestination) != 1 || abs(move.colomnOrigin - move.columnDestination) != 1 {
+        guard abs(move.rowOrigin - move.rowDestination) == 1 || abs(move.rowOrigin - move.rowDestination) == 0 || abs(move.colomnOrigin - move.columnDestination) == 1 || abs(move.colomnOrigin - move.columnDestination) == 0 else{
             return false
         }
-        if destinationCell.piece != nil {
-            return false
+//        if destinationCell.piece != nil {
+//            return false
+//        }
+        guard let pieceDestination = destinationCell.piece, canKill(animal1: pieceDestination.animal, canKill: initialCell.piece!.animal) else {
+            return true
         }
+        return false
         ///A verif il y a peut etre d'autre verif a faire
         ///!(column-1 < 0)
-        return true
     }
     
     /// Permet de verifier si un des joueurs a perdu
@@ -103,13 +120,9 @@ public struct VerySimpleRules: Rules {
                 return (false, .notFinished)
             }
         }
-        ///Verif nombre de piece joueur1
-        guard board.countPieces(of: .player1) != 0 else{
-            return (true, .winner(.player2, .noMovesLeft))
-        }
-        ///Verif nombre de piece joueur2
-        guard board.countPieces(of: .player2) != 0 else{
-            return (true, .winner(.player1, .noMovesLeft))
+        ///Verif nombre de piece du joueur actuel
+        guard board.countPieces(of: getNextPlayer()) != 0 else{
+            return (true, .winner(getPlayer(), .noMovesLeft))
         }
         ///Test pour verifier que le nombre d'occurence pour la board actuelle n'est pas a 3
             ///verification du nombre d'occurence
@@ -208,14 +221,48 @@ public struct VerySimpleRules: Rules {
         return .player2
     }
     
+    /// Get the actual player
+    /// - Returns: the actual owner
     public func getPlayer() -> Owner {
-        if historic.isEmpty {
-            return .player1
-        }
         if let owner = historic.last?.owner, owner == .player1 {
             return .player1
         }
         return .player2
+    }
+    
+    /// Est ce que un animal peut tuer un autre
+    /// - Parameters:
+    ///   - piece1: 1st Piece
+    ///   - piece2: 2nd Piece
+    /// - Returns: True si l'animal peut manger l'autre, sinon false (exception pour l'elephant et le rat
+    public func canKill(animal1 : Animal,canKill animal2: Animal) -> Bool {
+        if animal1 == .rat && animal2 == .elephant {
+            return true
+        }
+        if animal1 == .elephant && animal2 == .rat {
+            return false
+        }
+        if animal1 > animal2 {
+            return true
+        }
+        return false
+    }
+    
+    /// Get piece of an owner for a given board
+    /// - Parameters:
+    ///   - board: actual board
+    ///   - owner: the owner we want his piece
+    /// - Returns: a tuple with the localisation of each owner's pieces in the board
+    public func getPieces(board: Board, owner: Owner) -> [(row: Int, column: Int)] {
+        var tabPiece : [(Int, Int)] = []
+        for row in 0..<board.nbRow {
+            for column in 0..<board.nbColumn {
+                if let piece = board.grid[row][column].piece, piece.owner == owner {
+                    tabPiece.append((row,column))
+                }
+            }
+        }
+        return tabPiece
     }
 }
     

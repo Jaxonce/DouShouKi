@@ -10,7 +10,7 @@ import Model
 
 final class VerySimpleRulesTests: XCTestCase {
     var board = VerySimpleRules.createBoard()
-    var rule : Rules = VerySimpleRules()
+    var rule = VerySimpleRules()
     var grid = [[Cell]]()
 
     override func setUpWithError() throws {
@@ -143,6 +143,8 @@ final class VerySimpleRulesTests: XCTestCase {
     }
     
     func testGetNextPlayer(){
+        XCTAssertEqual(rule.getNextPlayer(), .player1)
+        
         rule.historic.append(Move(owner: .player1, rowOrigin: 1, colomnOrigin: 2, rowDestination: 2, columnDestination: 2))
         let nextOwner = rule.getNextPlayer()
         XCTAssertEqual(nextOwner, .player2)
@@ -150,6 +152,152 @@ final class VerySimpleRulesTests: XCTestCase {
         rule.historic.append(Move(owner: .player2, rowOrigin: 1, colomnOrigin: 2, rowDestination: 2, columnDestination: 2))
         let nextOwner2 = rule.getNextPlayer()
         XCTAssertEqual(nextOwner2, .player1)
+    }
+    
+    func testGetPlayer() {
+        XCTAssertEqual(rule.getPlayer(), .player2)
+        
+        rule.historic.append(Move(owner: .player1, rowOrigin: 1, colomnOrigin: 2, rowDestination: 2, columnDestination: 2))
+        let owner = rule.getPlayer()
+        XCTAssertEqual(owner, .player1)
+        
+        rule.historic.append(Move(owner: .player2, rowOrigin: 1, colomnOrigin: 2, rowDestination: 2, columnDestination: 2))
+        let owner2 = rule.getPlayer()
+        XCTAssertEqual(owner2, .player2)
+    }
+    
+//    func testCanKill(){
+//
+//    }
+    
+    func testGetMoves() {
+        let expectedResult = [
+            Move(owner: .player1, rowOrigin: 1, colomnOrigin: 2, rowDestination: 1, columnDestination: 3),
+            Move(owner: .player1, rowOrigin: 1, colomnOrigin: 2, rowDestination: 2, columnDestination: 2),
+            Move(owner: .player1, rowOrigin: 1, colomnOrigin: 2, rowDestination: 0, columnDestination: 2),
+            Move(owner: .player1, rowOrigin: 1, colomnOrigin: 2, rowDestination: 1, columnDestination: 1)
+            ]
+        
+        let moves = rule.getMoves(board: board, owner: .player1, withRaw: 1, andColumn: 2)
+        
+        XCTAssertEqual(moves, expectedResult)
+    }
+    
+    func testGetPieces() {
+        let expectedResult = [
+            (0,1),
+            (0,3),
+            (1,0),
+            (1,2),
+            (1,4)
+        ]
+        
+        let player1Pieces = rule.getPieces(board: board, owner: .player1)
+        
+        for i in 0..<expectedResult.count{
+            XCTAssertEqual(player1Pieces[i].row, expectedResult[i].0)
+            XCTAssertEqual(player1Pieces[i].column, expectedResult[i].1)
+        }
+        
+    }
+    
+    func testGetMovesWithOwner() {
+        //droite,bas, haut, gauche
+        let expectedResult = [
+            Move(owner: .player1, rowOrigin: 0, colomnOrigin: 1, rowDestination: 0, columnDestination: 2),
+            Move(owner: .player1, rowOrigin: 0, colomnOrigin: 1, rowDestination: 1, columnDestination: 1),
+            Move(owner: .player1, rowOrigin: 0, colomnOrigin: 1, rowDestination: 0, columnDestination: 0),
+            
+            Move(owner: .player1, rowOrigin: 0, colomnOrigin: 3, rowDestination: 0, columnDestination: 4),
+            Move(owner: .player1, rowOrigin: 0, colomnOrigin: 3, rowDestination: 1, columnDestination: 3),
+            Move(owner: .player1, rowOrigin: 0, colomnOrigin: 3, rowDestination: 0, columnDestination: 2),
+            
+            Move(owner: .player1, rowOrigin: 1, colomnOrigin: 0, rowDestination: 1, columnDestination: 1),
+            Move(owner: .player1, rowOrigin: 1, colomnOrigin: 0, rowDestination: 2, columnDestination: 0),
+            Move(owner: .player1, rowOrigin: 1, colomnOrigin: 0, rowDestination: 0, columnDestination: 0),
+            
+            Move(owner: .player1, rowOrigin: 1, colomnOrigin: 2, rowDestination: 1, columnDestination: 3),
+            Move(owner: .player1, rowOrigin: 1, colomnOrigin: 2, rowDestination: 2, columnDestination: 2),
+            Move(owner: .player1, rowOrigin: 1, colomnOrigin: 2, rowDestination: 0, columnDestination: 2),
+            Move(owner: .player1, rowOrigin: 1, colomnOrigin: 2, rowDestination: 1, columnDestination: 1),
+            
+            Move(owner: .player1, rowOrigin: 1, colomnOrigin: 4, rowDestination: 2, columnDestination: 4),
+            Move(owner: .player1, rowOrigin: 1, colomnOrigin: 4, rowDestination: 0, columnDestination: 4),
+            Move(owner: .player1, rowOrigin: 1, colomnOrigin: 4, rowDestination: 1, columnDestination: 3),
+            ]
+        
+        let moves = rule.getMoves(board: board, owner: .player1)
+        
+        XCTAssertEqual(moves, expectedResult)
+    }
+    
+    func testCanKill() {
+        XCTAssertEqual(rule.canKill(animal1: .cat, canKill: .rat), true)
+        XCTAssertEqual(rule.canKill(animal1: .cat, canKill: .dog), false)
+        XCTAssertEqual(rule.canKill(animal1: .rat, canKill: .elephant), true)
+        XCTAssertEqual(rule.canKill(animal1: .elephant, canKill: .rat), false)
+    }
+    
+    func testPlayedMove() {
+        let move = Move(owner: .player1, rowOrigin: 0, colomnOrigin: 1, rowDestination: 1, columnDestination: 1)
+        
+        rule.playedMove(move: move, boardBefore: board, boardAfter: board)
+        
+        XCTAssertEqual(rule.historic, [move])
+    }
+    
+    func testIsGameOver_denReached() {
+        let piece = Piece(withOwner: .player2, andAnimal: .cat)
+        let jungleCell = Cell(ofType: .jungle)
+        let cell = Cell(ofType: .den, ownedBy: .player1, withPiece: piece)
+        var gridForDen = grid
+        gridForDen[0][2] = cell
+        gridForDen[3][2] = jungleCell
+        let invalidBoard : Board = Board(withGrid: gridForDen)!
+        
+        let result = rule.isGameOver(board: invalidBoard, withLastRow: 0, andLastColumn: 2)
+        
+        let expectedResult : (Bool, Result) = (true, .winner(.player2, .denReached))
+        
+        XCTAssertEqual(result.0, expectedResult.0)
+        XCTAssertEqual(result.1, expectedResult.1)
+        
+    }
+    
+    func testIsGameOver_den_notFinished() {
+        let piece = Piece(withOwner: .player1, andAnimal: .cat)
+        let jungleCell = Cell(ofType: .jungle)
+        let cell = Cell(ofType: .den, ownedBy: .player1, withPiece: piece)
+        var gridForDen = grid
+        gridForDen[0][2] = cell
+        gridForDen[1][2] = jungleCell
+        let invalidBoard : Board = Board(withGrid: gridForDen)!
+        
+        let result = rule.isGameOver(board: invalidBoard, withLastRow: 0, andLastColumn: 2)
+        
+        let expectedResult : (Bool, Result) = (false, .notFinished)
+        
+        XCTAssertEqual(result.0, expectedResult.0)
+        XCTAssertEqual(result.1, expectedResult.1)
+        
+    }
+    
+    func testIsGameOver_actual_Player(){
+        let jungleCell = Cell(ofType: .jungle, ownedBy: .player1)
+        var gridForDen = grid
+        gridForDen[0][1] = jungleCell
+        gridForDen[0][3] = jungleCell
+        gridForDen[1][0] = jungleCell
+        gridForDen[1][2] = jungleCell
+        gridForDen[1][4] = jungleCell
+        let invalidBoard : Board = Board(withGrid: gridForDen)!
+        
+        let result = rule.isGameOver(board: invalidBoard, withLastRow: 0, andLastColumn: 0)
+        
+        let expectedResult : (Bool, Result) = (true, .winner(.player2, .noMovesLeft))
+        
+        XCTAssertEqual(result.0, expectedResult.0)
+        XCTAssertEqual(result.1, expectedResult.1)
     }
 
     func testPerformanceExample() throws {
