@@ -110,8 +110,9 @@ public struct VerySimpleRules: Rules {
     ///   - column: ligne qui représente le positionnement du dernier move qui vient d'etre effectuer
     /// - Returns: retourne un tuple avec true ou false, si la partie est gagné ou non, et un resultat avec une valeur associé lorsque la partie est gagné (permet de détaillé la raison de la victoire)
     public func isGameOver(board: Board, withLastRow row: Int, andLastColumn column: Int) -> (Bool, Result) {
-        let lastCell = board.grid[row][column]
         let nextPlayer = getNextPlayer()
+        let lastCell = board.grid[row][column]
+        
         if lastCell.cellType == .den {
             if let piece = lastCell.piece, piece.owner != lastCell.initialOwner {
                 return (true, .winner(piece.owner, .denReached))
@@ -183,7 +184,7 @@ public struct VerySimpleRules: Rules {
     public static func checkBoard(b: Board) throws{
         
         guard b.nbRow == VerySimpleRules.NB_ROW && b.nbColumn == VerySimpleRules.NB_COLUMN else {
-            throw InvalidBoardError.badDimensions(5, 5)
+            throw InvalidBoardError.badDimensions(b.nbRow, b.nbColumn)
         }
         guard b.grid.first?[2].cellType == .den else {
             throw InvalidBoardError.badCellType(b.grid.first![2].cellType, 0, 2)

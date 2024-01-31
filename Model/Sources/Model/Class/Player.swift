@@ -16,7 +16,7 @@ public class Player {
         self.name = name
     }
     
-    public func chooseMove(in board: Board, with rules: Rules){
-        
+    public func chooseMove(in board: Board, with rules: Rules) -> Move?{
+        return nil
     }
 }

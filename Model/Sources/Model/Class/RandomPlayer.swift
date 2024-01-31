@@ -12,7 +12,7 @@ public class RandomPlayer: Player{
         super.init(withName: name, andId: id)
     }
     
-    public override func chooseMove(in board: Board, with rules: Rules) {
-        
+    public override func chooseMove(in board: Board, with rules: Rules) -> Move? {
+        rules.getMoves(board: board, owner: id).randomElement()
     }
 }
