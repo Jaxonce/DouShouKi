@@ -122,24 +122,35 @@ func inputForHumanPlayer(player: HumanPlayer) -> Move? {
 }
 
 var player = HumanPlayer(withName: "jax", andId: .player1, andInputMethod: inputForHumanPlayer)
+var player3 = HumanPlayer(withName: "mama", andId: .player2, andInputMethod: inputForHumanPlayer)
 var player2 = RandomPlayer(withName: "toto", andId: .player2)
 
+public func getPlayer() -> Player{
+    if rule.getNextPlayer() == .player1 {
+        return player!
+    } else {
+        return player2!
+    }
+}
 
 print(board.display)
-while rule.historic.isEmpty || rule.isGameOver(board: board, withLastRow: rule.historic.last!.rowDestination, andLastColumn: rule.historic.last!.columnDestination).0 {
+while rule.historic.isEmpty || !rule.isGameOver(board: board, withLastRow: rule.historic.last!.rowDestination, andLastColumn: rule.historic.last!.columnDestination).0 {
     var actualPlayer = rule.getNextPlayer()
-    var move : Move? = player?.chooseMove(in: board, with: rule)
-    while let playMove = move, rule.isMoveValid(board: board, canMove: playMove){
+    print(actualPlayer.description)
+    var move : Move? = getPlayer().chooseMove(in: board, with: rule)
+    while let playMove = move, !rule.isMoveValid(board: board, canMove: playMove){
         move = player?.chooseMove(in: board, with: rule)
     }
     if let playMove = move {
-        var result = board.removePiece(atRow: playMove.colomnOrigin, andColumn: playMove.columnDestination)
         if let piece = board.grid[playMove.rowOrigin][playMove.colomnOrigin].piece {
+            var result = board.removePiece(atRow: playMove.rowDestination, andColumn: playMove.columnDestination)
+            result = board.removePiece(atRow: playMove.rowOrigin, andColumn: playMove.colomnOrigin)
             result = board.insert(piece, atRow: playMove.rowDestination, andColumn: playMove.columnDestination)
             rule.playedMove(move: playMove, boardBefore: board, boardAfter: board)
-            print(board.display)
         }
+        
     }
+    print(board.display)
     
     
 //    if let playMove = move {
@@ -151,6 +162,6 @@ while rule.historic.isEmpty || rule.isGameOver(board: board, withLastRow: rule.h
 //        }
 //        
 //    }
-    print(board.display)
+//    print(board.display)
 }
 
