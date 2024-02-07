@@ -81,7 +81,7 @@ final class VerySimpleRulesTests: XCTestCase {
         let invalidBoard : Board = Board(withGrid: grid)!
         XCTAssertThrowsError(try VerySimpleRules.checkBoard(b: invalidBoard)) { error in
             XCTAssertTrue(error is InvalidBoardError)
-            XCTAssertEqual(error as? InvalidBoardError, InvalidBoardError.badDimensions(5, 5))
+            XCTAssertEqual(error as? InvalidBoardError, InvalidBoardError.badDimensions(invalidBoard.nbRow, invalidBoard.nbColumn))
         }
     }
     
