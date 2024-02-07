@@ -139,7 +139,7 @@ while rule.historic.isEmpty || !rule.isGameOver(board: board, withLastRow: rule.
     print(actualPlayer.description)
     var move : Move? = getPlayer().chooseMove(in: board, with: rule)
     while let playMove = move, !rule.isMoveValid(board: board, canMove: playMove){
-        move = player?.chooseMove(in: board, with: rule)
+        move = getPlayer().chooseMove(in: board, with: rule)
     }
     if let playMove = move {
         if let piece = board.grid[playMove.rowOrigin][playMove.colomnOrigin].piece {
@@ -151,17 +151,5 @@ while rule.historic.isEmpty || !rule.isGameOver(board: board, withLastRow: rule.
         
     }
     print(board.display)
-    
-    
-//    if let playMove = move {
-//        let pieces = rule.getPieces(board: board, owner: playMove.owner)
-//        var result = board.removePiece(atRow: playMove.rowOrigin, andColumn: playMove.colomnOrigin)
-//        if let piece = board.grid[playMove.rowOrigin][playMove.colomnOrigin].piece {
-//            result = board.insert(piece, atRow: playMove.rowDestination, andColumn: playMove.columnDestination)
-//            rule.playedMove(move: playMove, boardBefore: board, boardAfter: board)
-//        }
-//        
-//    }
-//    print(board.display)
 }
 
