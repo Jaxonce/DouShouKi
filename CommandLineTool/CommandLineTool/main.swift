@@ -125,6 +125,8 @@ var player = HumanPlayer(withName: "jax", andId: .player1, andInputMethod: input
 var player3 = HumanPlayer(withName: "mama", andId: .player2, andInputMethod: inputForHumanPlayer)
 var player2 = RandomPlayer(withName: "toto", andId: .player2)
 
+var gameResult : (Bool, Result) = (false, .notFinished)
+
 public func getPlayer() -> Player{
     if rule.getNextPlayer() == .player1 {
         return player!
@@ -133,23 +135,54 @@ public func getPlayer() -> Player{
     }
 }
 
-print(board.display)
-while rule.historic.isEmpty || !rule.isGameOver(board: board, withLastRow: rule.historic.last!.rowDestination, andLastColumn: rule.historic.last!.columnDestination).0 {
-    var actualPlayer = rule.getNextPlayer()
-    print(actualPlayer.description)
-    var move : Move? = getPlayer().chooseMove(in: board, with: rule)
-    while let playMove = move, !rule.isMoveValid(board: board, canMove: playMove){
-        move = getPlayer().chooseMove(in: board, with: rule)
-    }
-    if let playMove = move {
-        if let piece = board.grid[playMove.rowOrigin][playMove.colomnOrigin].piece {
-            var result = board.removePiece(atRow: playMove.rowDestination, andColumn: playMove.columnDestination)
-            result = board.removePiece(atRow: playMove.rowOrigin, andColumn: playMove.colomnOrigin)
-            result = board.insert(piece, atRow: playMove.rowDestination, andColumn: playMove.columnDestination)
-            rule.playedMove(move: playMove, boardBefore: board, boardAfter: board)
-        }
-        
-    }
+//print(board.display)
+//while rule.historic.isEmpty || !rule.isGameOver(board: board, withLastRow: rule.historic.last!.rowDestination, andLastColumn: rule.historic.last!.columnDestination).0 {
+//    var actualPlayer = rule.getNextPlayer()
+//    print(actualPlayer.description)
+//    var move : Move? = getPlayer().chooseMove(in: board, with: rule)
+//    while let playMove = move, !rule.isMoveValid(board: board, canMove: playMove){
+//        move = getPlayer().chooseMove(in: board, with: rule)
+//    }
+//    if let playMove = move {
+//        if let piece = board.grid[playMove.rowOrigin][playMove.colomnOrigin].piece {
+//            var result = board.removePiece(atRow: playMove.rowDestination, andColumn: playMove.columnDestination)
+//            result = board.removePiece(atRow: playMove.rowOrigin, andColumn: playMove.colomnOrigin)
+//            result = board.insert(piece, atRow: playMove.rowDestination, andColumn: playMove.columnDestination)
+//            rule.playedMove(move: playMove, boardBefore: board, boardAfter: board)
+//        }
+//        
+//    }
+//    print(board.display)
+//}
+
+var game: Game = Game(withRules: rule, andPlayer1: player!, andPlayer2: player2!)
+
+func displayBoard(board: Board){
     print(board.display)
 }
+func startGame() {
+    displayBoard(board: board)
+    print("**************************************")
+    print("\t==>> GAME STARTS! <<==")
+    print("**************************************")
+}
+func nextPlayer(player: Player){
+    displayBoard(board: board)
+    print("**************************************")
+    print("Player \(player.id.description) - \(player.name), it's your turn !")
+    print("**************************************")
+}
+func gameOver(result: Result){
+    if gameResult.0 {
+        displayBoard(board: board)
+        print("**************************************")
+        print("Game Over!!!")
+        print("**************************************")
+    }
+}
+game.startGameListener(start: startGame)
+game.displayBoardListener(board: displayBoard)
+game.isGameOverListener(result: gameOver)
+game.nextPlayerListener(player: nextPlayer)
 
+game.start()

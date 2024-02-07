@@ -39,7 +39,7 @@ public struct Game {
         var gameResult : (Bool,Result)
         while rule.historic.isEmpty || !rule.isGameOver(board: board, withLastRow: rule.historic.last!.rowDestination, andLastColumn: rule.historic.last!.columnDestination).0 {
             var actualPlayer = rule.getNextPlayer()
-            nextPlayerCallBacks(board: board)
+            nextPlayerCallBacks(player: getPlayer())
             var move : Move? = getPlayer().chooseMove(in: board, with: rule)
             while let playMove = move, !rule.isMoveValid(board: board, canMove: playMove){
                 move = getPlayer().chooseMove(in: board, with: rule)
@@ -70,14 +70,14 @@ public struct Game {
         startCollection.forEach({$0()})
     }
     
-    var nextPlayerCollection: [((Board) -> Void)] = []
+    var nextPlayerCollection: [((Player) -> Void)] = []
     
-    public mutating func nextPlayerListener(player: @escaping (Board) -> Void) {
+    public mutating func nextPlayerListener(player: @escaping (Player) -> Void) {
         self.nextPlayerCollection.append(player)
     }
     
-    private func nextPlayerCallBacks(board: Board) {
-        nextPlayerCollection.forEach({$0(board)})
+    private func nextPlayerCallBacks(player: Player) {
+        nextPlayerCollection.forEach({$0(player)})
     }
     
     var isGameOverCollection: [((Result) -> Void)] = []
