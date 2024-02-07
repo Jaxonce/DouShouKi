@@ -43,3 +43,8 @@ Suivre les étapes suivante pour voir la couverture de test
 3)
 
 <img src="./Image/CoverageReport2.png" height="300" width="auto"/>
+
+## Fonctionnement de la boucle de jeu
+
+Voici un algorithme en language naturel de la manière dont ma boucle de jeu (dans le main) est réalisé.
+
