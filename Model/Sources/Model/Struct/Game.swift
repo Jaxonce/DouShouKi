@@ -13,9 +13,17 @@ public struct Game {
     public var player2: Player
     public var rule: Rules
     
-    public init(withRules rule: Rules,andPlayer1 player1: Player,andPlayer2 player2: Player) {
+    /// Ctor to create the game and init the board with specific rule
+    /// - Parameters:
+    ///   - rule: rule use for the game
+    ///   - player1: the player1
+    ///   - player2: the player2
+    public init(withRules rule: Rules,andPlayer1 player1: Player,andPlayer2 player2: Player) throws{
         self.player1 = player1
         self.player2 = player2
+        if (player1.id == player2.id) {
+            throw GameError.badPlayerId(id: "Bad id : \(player1.id)")
+        }
         self.rule = rule
         self.board = VerySimpleRules.createBoard()
 //        if self.rule is VerySimpleRules {
@@ -26,30 +34,39 @@ public struct Game {
         
     }
     
-    public func getPlayer() -> Player{
-        if rule.getNextPlayer() == .player1 {
+    /// Get the player from the owner
+    /// - Returns: or the player1, or the player2
+    public func getPlayer() throws -> Player{
+        switch rule.getNextPlayer() {
+        case .noOne:
+            throw GameError.nextPlayerError
+        case .player1:
             return player1
-        } else {
+        case .player2:
             return player2
         }
     }
     
+    /// Method use to start the game and execute the boucle game
     public mutating func start(){
         startGameCallBacks()
         var gameResult : (Bool,Result)
         while rule.historic.isEmpty || !rule.isGameOver(board: board, withLastRow: rule.historic.last!.rowDestination, andLastColumn: rule.historic.last!.columnDestination).0 {
-            var actualPlayer = rule.getNextPlayer()
-            nextPlayerCallBacks(player: getPlayer())
-            var move : Move? = getPlayer().chooseMove(in: board, with: rule)
+            var actualPlayer = try! getPlayer()
+            nextPlayerCallBacks(player: actualPlayer)
+            var move : Move? = actualPlayer.chooseMove(in: board, with: rule)
             while let playMove = move, !rule.isMoveValid(board: board, canMove: playMove){
-                move = getPlayer().chooseMove(in: board, with: rule)
+                badMoveCallBacks(move: playMove)
+                move = actualPlayer.chooseMove(in: board, with: rule)
             }
+            chooseMoveCallBacks(move: move!)
             if let playMove = move {
                 if let piece = board.grid[playMove.rowOrigin][playMove.colomnOrigin].piece {
                     var result = board.removePiece(atRow: playMove.rowDestination, andColumn: playMove.columnDestination)
                     result = board.removePiece(atRow: playMove.rowOrigin, andColumn: playMove.colomnOrigin)
                     result = board.insert(piece, atRow: playMove.rowDestination, andColumn: playMove.columnDestination)
                     rule.playedMove(move: playMove, boardBefore: board, boardAfter: board)
+                    boardChangedCallBacks(board: board, move: playMove)
                     gameResult = rule.isGameOver(board: board, withLastRow: playMove.rowDestination, andLastColumn: playMove.columnDestination)
                     isGameOverCallBacks(result: gameResult.1)
                 }
@@ -98,5 +115,35 @@ public struct Game {
     
     private func displayBoardCallBacks(board: Board){
         displayBoardCollection.forEach({$0(board)})
+        
+    }
+    var chooseMoveCollection : [((Move)->Void)] = []
+    
+    public mutating func chooseMoveListener(move: @escaping(Move)-> Void){
+        self.chooseMoveCollection.append(move)
+    }
+    
+    private func chooseMoveCallBacks(move: Move){
+        chooseMoveCollection.forEach({$0(move)})
+    }
+    
+    var badMoveCollection : [((Move)->Void)] = []
+    
+    public mutating func badMoveListener(move: @escaping(Move)-> Void){
+        self.badMoveCollection.append(move)
+    }
+    
+    private func badMoveCallBacks(move: Move){
+        badMoveCollection.forEach({$0(move)})
+    }
+    
+    var boardChangedCollection : [((Board, Move)->Void)] = []
+    
+    public mutating func boardChangedListener(change: @escaping(Board, Move)-> Void){
+        self.boardChangedCollection.append(change)
+    }
+    
+    private func boardChangedCallBacks(board:Board, move: Move){
+        boardChangedCollection.forEach({$0(board, move)})
     }
 }

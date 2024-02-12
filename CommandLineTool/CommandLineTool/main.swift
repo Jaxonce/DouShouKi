@@ -98,6 +98,9 @@ import Extensions
 var rule : VerySimpleRules = VerySimpleRules()
 var board = VerySimpleRules.createBoard()
 
+/// Method to keep input of a human player
+/// - Parameter player: The player we want his move
+/// - Returns: A move with coordonate given by a human
 func inputForHumanPlayer(player: HumanPlayer) -> Move? {
     print("Choose one row")
     guard let choiceRow = readLine() else{
@@ -157,32 +160,81 @@ public func getPlayer() -> Player{
 
 var game: Game = Game(withRules: rule, andPlayer1: player!, andPlayer2: player2!)
 
+/// Method to print the board
+/// - Parameter board: actual board
 func displayBoard(board: Board){
     print(board.display)
 }
+/// Method when start the game display message
 func startGame() {
     displayBoard(board: board)
     print("**************************************")
     print("\t==>> GAME STARTS! <<==")
     print("**************************************")
 }
+
+/// Methods display who is the next player
+/// - Parameter player: next player
 func nextPlayer(player: Player){
     displayBoard(board: board)
     print("**************************************")
     print("Player \(player.id.description) - \(player.name), it's your turn !")
     print("**************************************")
 }
+
+/// Method display message each turn to say if is game over
+/// - Parameter result: result of the game: not finish, win, even
 func gameOver(result: Result){
-    if gameResult.0 {
-        displayBoard(board: board)
+    switch result {
+    case .notFinished:
+        print("Game is not over yet!")
+    case .winner(_ : let owner, _ : let reason):
         print("**************************************")
         print("Game Over!!!")
+        print("and the winner is ... player\(owner.description)")
+        print("\(reason.description)")
+        print("**************************************")
+    case .even:
+        print("**************************************")
+        print("Game Over!!!")
+        print("there is a tie between the two players.")
         print("**************************************")
     }
+}
+/// Method notify the board has been changed and display each turn the last move and the board
+/// - Parameters:
+///   - board: new board
+///   - move: last move played
+func boardChange(board: Board, move: Move){
+    print("**************************************")
+    print("the board has been changed !")
+    print("last move : Origin: (\(move.rowOrigin),\(move.colomnOrigin)), Destination : (\(move.rowDestination),\(move.columnDestination))")
+    print("new Board :")
+    displayBoard(board: board)
+    print("**************************************")
+}
+/// Method notify when a bad move has been given
+/// - Parameter move: bad move
+func badMove(move : Move){
+    print("**************************************")
+    print("Origin: (\(move.rowOrigin),\(move.colomnOrigin)), Destination : (\(move.rowDestination),\(move.columnDestination))")
+    print("This move is not good retry !")
+    print("**************************************")
+}
+/// Method notify when a the good move has been given
+/// - Parameter move: good move
+func moveIsChoose(move : Move){
+    print("**************************************")
+    print("Origin: (\(move.rowOrigin),\(move.colomnOrigin)), Destination : (\(move.rowDestination),\(move.columnDestination))")
+    print("This move has been choosed")
+    print("**************************************")
 }
 game.startGameListener(start: startGame)
 game.displayBoardListener(board: displayBoard)
 game.isGameOverListener(result: gameOver)
 game.nextPlayerListener(player: nextPlayer)
+game.badMoveListener(move: badMove)
+game.chooseMoveListener(move: moveIsChoose)
+game.boardChangedListener(change: boardChange)
 
 game.start()
