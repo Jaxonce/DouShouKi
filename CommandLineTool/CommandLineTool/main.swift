@@ -158,7 +158,7 @@ public func getPlayer() -> Player{
 //    print(board.display)
 //}
 
-var game: Game = Game(withRules: rule, andPlayer1: player!, andPlayer2: player2!)
+var game: Game = try Game(withRules: rule, andPlayer1: player!, andPlayer2: player2!)
 
 /// Method to print the board
 /// - Parameter board: actual board
