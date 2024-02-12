@@ -98,6 +98,9 @@ import Extensions
 var rule : VerySimpleRules = VerySimpleRules()
 var board = VerySimpleRules.createBoard()
 
+/// Method to keep input of a human player
+/// - Parameter player: The player we want his move
+/// - Returns: A move with coordonate given by a human
 func inputForHumanPlayer(player: HumanPlayer) -> Move? {
     print("Choose one row")
     guard let choiceRow = readLine() else{
@@ -125,6 +128,8 @@ var player = HumanPlayer(withName: "jax", andId: .player1, andInputMethod: input
 var player3 = HumanPlayer(withName: "mama", andId: .player2, andInputMethod: inputForHumanPlayer)
 var player2 = RandomPlayer(withName: "toto", andId: .player2)
 
+var gameResult : (Bool, Result) = (false, .notFinished)
+
 public func getPlayer() -> Player{
     if rule.getNextPlayer() == .player1 {
         return player!
@@ -133,35 +138,103 @@ public func getPlayer() -> Player{
     }
 }
 
-print(board.display)
-while rule.historic.isEmpty || !rule.isGameOver(board: board, withLastRow: rule.historic.last!.rowDestination, andLastColumn: rule.historic.last!.columnDestination).0 {
-    var actualPlayer = rule.getNextPlayer()
-    print(actualPlayer.description)
-    var move : Move? = getPlayer().chooseMove(in: board, with: rule)
-    while let playMove = move, !rule.isMoveValid(board: board, canMove: playMove){
-        move = player?.chooseMove(in: board, with: rule)
-    }
-    if let playMove = move {
-        if let piece = board.grid[playMove.rowOrigin][playMove.colomnOrigin].piece {
-            var result = board.removePiece(atRow: playMove.rowDestination, andColumn: playMove.columnDestination)
-            result = board.removePiece(atRow: playMove.rowOrigin, andColumn: playMove.colomnOrigin)
-            result = board.insert(piece, atRow: playMove.rowDestination, andColumn: playMove.columnDestination)
-            rule.playedMove(move: playMove, boardBefore: board, boardAfter: board)
-        }
-        
-    }
-    print(board.display)
-    
-    
+//print(board.display)
+//while rule.historic.isEmpty || !rule.isGameOver(board: board, withLastRow: rule.historic.last!.rowDestination, andLastColumn: rule.historic.last!.columnDestination).0 {
+//    var actualPlayer = rule.getNextPlayer()
+//    print(actualPlayer.description)
+//    var move : Move? = getPlayer().chooseMove(in: board, with: rule)
+//    while let playMove = move, !rule.isMoveValid(board: board, canMove: playMove){
+//        move = getPlayer().chooseMove(in: board, with: rule)
+//    }
 //    if let playMove = move {
-//        let pieces = rule.getPieces(board: board, owner: playMove.owner)
-//        var result = board.removePiece(atRow: playMove.rowOrigin, andColumn: playMove.colomnOrigin)
 //        if let piece = board.grid[playMove.rowOrigin][playMove.colomnOrigin].piece {
+//            var result = board.removePiece(atRow: playMove.rowDestination, andColumn: playMove.columnDestination)
+//            result = board.removePiece(atRow: playMove.rowOrigin, andColumn: playMove.colomnOrigin)
 //            result = board.insert(piece, atRow: playMove.rowDestination, andColumn: playMove.columnDestination)
 //            rule.playedMove(move: playMove, boardBefore: board, boardAfter: board)
 //        }
 //        
 //    }
 //    print(board.display)
+//}
+
+var game: Game = Game(withRules: rule, andPlayer1: player!, andPlayer2: player2!)
+
+/// Method to print the board
+/// - Parameter board: actual board
+func displayBoard(board: Board){
+    print(board.display)
+}
+/// Method when start the game display message
+func startGame() {
+    displayBoard(board: board)
+    print("**************************************")
+    print("\t==>> GAME STARTS! <<==")
+    print("**************************************")
 }
 
+/// Methods display who is the next player
+/// - Parameter player: next player
+func nextPlayer(player: Player){
+    displayBoard(board: board)
+    print("**************************************")
+    print("Player \(player.id.description) - \(player.name), it's your turn !")
+    print("**************************************")
+}
+
+/// Method display message each turn to say if is game over
+/// - Parameter result: result of the game: not finish, win, even
+func gameOver(result: Result){
+    switch result {
+    case .notFinished:
+        print("Game is not over yet!")
+    case .winner(_ : let owner, _ : let reason):
+        print("**************************************")
+        print("Game Over!!!")
+        print("and the winner is ... player\(owner.description)")
+        print("\(reason.description)")
+        print("**************************************")
+    case .even:
+        print("**************************************")
+        print("Game Over!!!")
+        print("there is a tie between the two players.")
+        print("**************************************")
+    }
+}
+/// Method notify the board has been changed and display each turn the last move and the board
+/// - Parameters:
+///   - board: new board
+///   - move: last move played
+func boardChange(board: Board, move: Move){
+    print("**************************************")
+    print("the board has been changed !")
+    print("last move : Origin: (\(move.rowOrigin),\(move.colomnOrigin)), Destination : (\(move.rowDestination),\(move.columnDestination))")
+    print("new Board :")
+    displayBoard(board: board)
+    print("**************************************")
+}
+/// Method notify when a bad move has been given
+/// - Parameter move: bad move
+func badMove(move : Move){
+    print("**************************************")
+    print("Origin: (\(move.rowOrigin),\(move.colomnOrigin)), Destination : (\(move.rowDestination),\(move.columnDestination))")
+    print("This move is not good retry !")
+    print("**************************************")
+}
+/// Method notify when a the good move has been given
+/// - Parameter move: good move
+func moveIsChoose(move : Move){
+    print("**************************************")
+    print("Origin: (\(move.rowOrigin),\(move.colomnOrigin)), Destination : (\(move.rowDestination),\(move.columnDestination))")
+    print("This move has been choosed")
+    print("**************************************")
+}
+game.startGameListener(start: startGame)
+game.displayBoardListener(board: displayBoard)
+game.isGameOverListener(result: gameOver)
+game.nextPlayerListener(player: nextPlayer)
+game.badMoveListener(move: badMove)
+game.chooseMoveListener(move: moveIsChoose)
+game.boardChangedListener(change: boardChange)
+
+game.start()
