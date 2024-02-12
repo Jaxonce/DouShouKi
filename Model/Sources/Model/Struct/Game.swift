@@ -54,13 +54,14 @@ public struct Game {
         while rule.historic.isEmpty || !rule.isGameOver(board: board, withLastRow: rule.historic.last!.rowDestination, andLastColumn: rule.historic.last!.columnDestination).0 {
             var actualPlayer = try! getPlayer()
             nextPlayerCallBacks(player: actualPlayer)
+            displayBoardCallBacks(board: board)
             var move : Move? = actualPlayer.chooseMove(in: board, with: rule)
             while let playMove = move, !rule.isMoveValid(board: board, canMove: playMove){
                 badMoveCallBacks(move: playMove)
                 move = actualPlayer.chooseMove(in: board, with: rule)
             }
-            chooseMoveCallBacks(move: move!)
             if let playMove = move {
+                chooseMoveCallBacks(move: playMove)
                 if let piece = board.grid[playMove.rowOrigin][playMove.colomnOrigin].piece {
                     var result = board.removePiece(atRow: playMove.rowDestination, andColumn: playMove.columnDestination)
                     result = board.removePiece(atRow: playMove.rowOrigin, andColumn: playMove.colomnOrigin)
@@ -72,8 +73,6 @@ public struct Game {
                 }
                 
             }
-            displayBoardCallBacks(board: board)
-            
         }
     }
     
