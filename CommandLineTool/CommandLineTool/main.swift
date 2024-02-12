@@ -121,7 +121,10 @@ func inputForHumanPlayer(player: HumanPlayer) -> Move? {
     if choiceRow.isEmpty || choiceColumn.isEmpty || choiceDestinationRow.isEmpty || choiceDestinationColumn.isEmpty {
         return nil
     }
-    return Move(owner: player.id, rowOrigin: Int(choiceRow)!, colomnOrigin: Int(choiceColumn)!, rowDestination: Int(choiceDestinationRow)!, columnDestination: Int(choiceDestinationColumn)!)
+    guard let rowInit = Int(choiceRow), let colInit = Int(choiceColumn),let rowDest = Int(choiceDestinationRow),let colDest = Int(choiceDestinationColumn) else{
+        return nil
+    }
+    return Move(owner: player.id, rowOrigin: rowInit, colomnOrigin: colInit, rowDestination: rowDest, columnDestination: colDest)
 }
 
 var player = HumanPlayer(withName: "jax", andId: .player1, andInputMethod: inputForHumanPlayer)
@@ -167,7 +170,6 @@ func displayBoard(board: Board){
 }
 /// Method when start the game display message
 func startGame() {
-    displayBoard(board: board)
     print("**************************************")
     print("\t==>> GAME STARTS! <<==")
     print("**************************************")
@@ -176,7 +178,6 @@ func startGame() {
 /// Methods display who is the next player
 /// - Parameter player: next player
 func nextPlayer(player: Player){
-    displayBoard(board: board)
     print("**************************************")
     print("Player \(player.id.description) - \(player.name), it's your turn !")
     print("**************************************")
