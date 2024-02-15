@@ -7,14 +7,20 @@ trigger:
         - push
 
 steps:
-  - name: build
+  - name: build-model
     image: swift:latest
     commands:
-        - cd Sources/Model
+        - cd Model
+        - swift build
+
+  - name: build-extension
+    image: swift:latest
+    commands:
+        - cd Extensions
         - swift build
 
   - name: test
     image: swift:latest
     commands:
-        - cd Sources/Model
+        - cd Model
         - swift test
