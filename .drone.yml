@@ -1,0 +1,20 @@
+kind: pipeline
+type: docker
+name: DouShouKi_malanone
+
+trigger:
+    event:
+        - push
+
+steps:
+  - name: build
+    image: swift:latest
+    commands:
+        - cd Sources/Model
+        - swift build
+
+  - name: test
+    image: swift:latest
+    commands:
+        - cd Sources/Model
+        - swift test
