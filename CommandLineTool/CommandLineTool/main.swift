@@ -239,3 +239,78 @@ game.chooseMoveListener(move: moveIsChoose)
 game.boardChangedListener(change: boardChange)
 
 game.start()
+
+
+
+
+func testTp6(){
+    ///test encode et decode animal
+    let animal: Animal = .cat
+
+    MyFileManager.save(object: animal, to: "Animal.json")
+
+    let animal2 = MyFileManager.load(from: "Animal.json", as: Animal.self)
+
+    print(animal2!)
+
+    ///test encode et decode owner
+    let owner: Owner = .player1
+    MyFileManager.save(object: owner, to: "Owner.json")
+
+    let owner2 = MyFileManager.load(from: "Owner.json", as: Owner.self)
+
+    print(owner2!)
+
+    ///test encode et decode cell type
+    let cellType: CellType = .den
+    MyFileManager.save(object: cellType, to: "CellType.json")
+
+    let cellType2 = MyFileManager.load(from: "CellType.json", as: CellType.self)
+
+    print(cellType2!)
+
+    ///test encode et decode piece
+    let piece: Piece = Piece(withOwner: owner, andAnimal: animal)
+    MyFileManager.save(object: piece, to: "Piece.json")
+
+    let piece2 = MyFileManager.load(from: "Piece.json", as: Piece.self)
+
+    print(piece2!)
+
+    ///test encode et decode Move
+    let move: Move = Move(owner: owner, rowOrigin: 1, colomnOrigin: 1, rowDestination: 1, columnDestination: 2)
+    MyFileManager.save(object: move, to: "Move.json")
+
+    let move2 = MyFileManager.load(from: "Move.json", as: Move.self)
+
+    print(move2!)
+
+    ///test encode et decode Cell
+    let cell: Cell = Cell(ofType: cellType, ownedBy: owner, withPiece: piece)
+    MyFileManager.save(object: cell, to: "Cell.json")
+
+    let cell2 = MyFileManager.load(from: "Cell.json", as: Cell.self)
+
+    print(cell2!)
+
+    ///test encode et decode Cell without piece
+    let cell3: Cell = Cell(ofType: .jungle, ownedBy: .player1)
+    MyFileManager.save(object: cell3, to: "Cell.json")
+
+    let cell4 = MyFileManager.load(from: "Cell.json", as: Cell.self)
+
+    print(cell4!.description)
+
+    ///test encode et decode Board
+    if let board: Board = Board(withGrid: [[cell]]) {
+        MyFileManager.save(object: board, to: "Board.json")
+    }
+
+    let board2 = MyFileManager.load(from: "Board.json", as: Board.self)
+
+    print(board2!.display)
+}
+
+///uncomment this line to execute the test for tp6
+//testTp6()
+
