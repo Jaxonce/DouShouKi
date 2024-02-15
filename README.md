@@ -1,3 +1,5 @@
+[![Build Status](https://codefirst.iut.uca.fr/api/badges/maxence.lanone/DouShouKi_malanone/status.svg)](https://codefirst.iut.uca.fr/maxence.lanone/DouShouKi_malanone)
+
 # Project DouShuKi 3ème année
 
 ## Cloner le dépot
