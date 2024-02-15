@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum Animal: String, Comparable, CaseIterable, Codable{
+public enum Animal: String, Comparable, CaseIterable{
     public static func < (lhs: Animal, rhs: Animal) -> Bool {
         return lhs.rawValue < rhs.rawValue
     }

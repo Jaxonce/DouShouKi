@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum CellType: String, Codable {
+public enum CellType: String {
     case unknown, jungle, water, trap, den
     
 }
