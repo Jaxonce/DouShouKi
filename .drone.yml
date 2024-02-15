@@ -6,6 +6,7 @@ trigger:
     event:
         - push
 
+
 steps:
   - name: build-model
     image: swift:latest
