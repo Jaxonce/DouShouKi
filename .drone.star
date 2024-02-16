@@ -13,6 +13,8 @@ def main(ctx):
         return pipeline
     
     CI_Pipeline["steps"] = [Build_Model(),Build_Extension(), UnitTest()]
+    pipeline.append(CI_Pipeline)
+    return pipeline
 
 def Build_Model():
     return {
