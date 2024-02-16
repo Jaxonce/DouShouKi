@@ -9,6 +9,7 @@ def main(ctx):
     }
 
     if "[no_ci]" in commit_message or "readme.md" in commit_message:
+        pipeline = []
         return pipeline
     
     CI_Pipeline["steps"] = [Build_Model(),Build_Extension(), UnitTest()]
