@@ -1,5 +1,7 @@
 def main(ctx):
     commit_message = ctx.build.message.lower()
+    pipeline = []
+    
     CI_Pipeline = {
         "kind": "pipeline",
         "name": "CI",
